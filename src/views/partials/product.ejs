@@ -1,0 +1,16 @@
+<section class="product-box">
+  <a href="/products/detail/<%= product.id  %>">
+    <figure class="product-box_image">
+      <img
+        src="/images/products/<%= product.image  %>"
+        alt="<%= product.name  %>"
+      />
+    </figure>
+    <article class="product-box_data">
+      <h2>$<%= toThousand(product.price) %></h2>
+      <span><%= product.discount %>% OFF</span>
+      <p><%= product.name %></p>
+      <i class="fas fa-truck"></i>
+    </article>
+  </a>
+</section>
