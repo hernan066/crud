@@ -40,6 +40,8 @@ const controller = {
     const { id } = req.params;
     let { name, price, discount, description, category } = req.body;
 
+    let image = req.files.map((file) => file.filename);
+
     let newProduct = {
       id: products[products.length - 1].id + 1,
       name: name.trim(),
@@ -47,7 +49,7 @@ const controller = {
       price: +price,
       discount: +discount,
       category,
-      image: "default-image.png",
+      image: image? image: "default-image.png",
     };
 
     let productsNew = [...products, newProduct];
@@ -73,8 +75,17 @@ const controller = {
   },
   // Update - Method to update
   update: (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
+    
+    const products = JSON.parse(fs.readFileSync(productsFilePath, "utf-8"));
+    
     let { name, price, discount, description, category } = req.body;
+
+    let image = req.files.map((file) => file.filename);
+
+    let productToEdit = products.find((product) => product.id === +id);
+
+    let originalImage = productToEdit.image
 
     const productModify = products.map((product) => {
       if (product.id === +id) {
@@ -85,6 +96,7 @@ const controller = {
           price: +price,
           discount: +discount,
           category,
+          image: image ? image : originalImage
         };
       } else {
         return product;
